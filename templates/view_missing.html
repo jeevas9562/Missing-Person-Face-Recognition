@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Persons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4ca1af;
+            text-align: center;
+        }
+        .person-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #fafafa;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .person-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;  /* Ensures all images are resized uniformly */
+            border-radius: 8px;
+            border: 2px solid #ccc;
+        }
+        .details {
+            flex: 1;
+        }
+        a {
+            text-decoration: none;
+            color: #4ca1af;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Missing Persons List</h1>
+        <a href="{{ url_for('index') }}">Back</a>
+        
+        {% for person in persons %}
+        <div class="person-card">
+            <img src="{{ person.image_path }}" alt="Missing Person">
+            <div class="details">
+                <strong>Name:</strong> {{ person.name }}<br>
+                <strong>Age:</strong> {{ person.age }}<br>
+                <strong>Contact:</strong> {{ person.contact_info }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f6f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h2, h4 {
+        color: #4A90E2;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        display: inline-block;
+        background-color: #4A90E2;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background 0.3s;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background-color: #215b88;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+    }
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #4A90E2;
+        color: #fff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    .sidebar {
+        width: 250px;
+        background-color: #2c3e50;
+        color: #fff;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+        background-color: #34495e;
+    }
+
+    .header {
+        background-color: #4A90E2;
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .header .profile-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4A90E2;
+        cursor: pointer;
+    }
+
+    .main-content {
+        margin-left: 270px;
+        padding: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card h4 {
+        margin-top: 0;
+    }
+
+    a{
+            text-decoration: none;
+            color: #4ca1af;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+    /* Alert Container - Fixed at the Top Right */
+    #alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000; /* Ensures it's always visible */
+        width: 300px; /* Set a reasonable width */
+        max-height: 400px; /* Prevents overflow */
+        overflow-y: auto; /* Enables scrolling if too many alerts */
+    }
+
+    /* Alert Box Styling */
+    .alert {
+        background-color: #ffcccc; /* Light red */
+        color: #b30000; /* Dark red text */
+        padding: 15px;
+        margin: 10px 0;
+        border-left: 5px solid #b30000;
+        border-radius: 5px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    /* Close Button */
+    .alert .close {
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #b30000;
+        padding-left: 10px;
+    }
+
+    .alert .close:hover {
+        color: black;
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h3>Admin Panel</h3>
+    <a href="#user-management">👤 User Management</a>
+    <a href="#missing-persons">🔍 Missing Persons</a>
+    <a href="#recognized-faces">📸 Recognized Faces</a>
+</div>
+
+<!-- Header -->
+<div class="header">
+    <h2>Admin Dashboard</h2>
+    <div class="profile-icon" onclick="toggleProfileMenu()">👤</div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <a href="{{ url_for('admin_login') }}">Back</a>
+
+    <!-- User Management -->
+    <div class="card" id="user-management">
+        <h4>👤 User Management</h4>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ "Admin" if user.is_admin else "User" }}</td>
+                <td>
+                    
+                    <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-secondary">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Missing Persons Management -->
+    <div class="card" id="missing-persons">
+        <h4>🔍 Missing Persons</h4>
+        <a href="{{ url_for('upload') }}" class="btn">➕ Add Missing Person</a>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Contact Info</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            {% for person in persons %}
+            <tr>
+                <td>{{ person.id }}</td>
+                <td>{{ person.name }}</td>
+                <td>{{ person.age }}</td>
+                <td>{{ person.contact_info }}</td>
+                <td><img src="{{ person.image_path }}" alt="Missing Person"></td>
+                <td>
+                    <form method="POST" action="{{ url_for('delete_missing_person', person_id=person.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to delete this person?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="card" id="face-detection">
+        <h4>🖼️ Face Detection</h4>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="file" id="fileInput" required>
+            <button class="btn" type="submit">Detect Faces</button>
+        </form>
+        <div id="resultMessage"></div>  <!-- ✅ This is where we'll display the result -->
+    </div>
+    
+    <!-- Recognized Faces -->
+    <div class="card" id="recognized-faces">
+        <h4>📸 Recognized Faces</h4>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Matched Name</th>
+                <th>Timestamp</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            {% for face in recognized_faces %}
+            <tr>
+                <td>{{ face.id }}</td>
+                <td>{{face.person_name }}</td>
+                <td>{{ face.timestamp }}</td>
+                <td><img src="{{ face.image_path }}" alt="Recognized Face"></td>
+                <td>
+                    <!-- Delete Button -->
+                    <form method="POST" action="{{ url_for('delete_recognized_person', person_id=face.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this recognized person?');">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<script>
+    function toggleProfileMenu() {
+        // Add functionality for profile menu (e.g., logout, settings)
+        alert("Profile menu clicked!");
+    }
+</script>
+<script>
+    document.getElementById("uploadForm").addEventListener("submit", function(event) {
+        event.preventDefault();  // Prevent page refresh
+    
+        let formData = new FormData();
+        let fileInput = document.getElementById("fileInput");
+    
+        if (fileInput.files.length === 0) {
+            alert("Please select a file first.");
+            return;
+        }
+    
+        formData.append("file", fileInput.files[0]);
+    
+        fetch("/upload_unknown", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())  // Convert response to JSON
+        .then(data => {
+            let resultMessage = document.getElementById("resultMessage");
+            if (data.status === "success") {
+                resultMessage.innerHTML = `<p style="color: green;">✅ ${data.message}</p>`;
+            } else {
+                resultMessage.innerHTML = `<p style="color: red;">❌ ${data.message}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("resultMessage").innerHTML = `<p style="color: red;">⚠️ An error occurred. Please try again.</p>`;
+        });
+    });
+</script>
+
+<!-- Alerts & Notifications -->
+<div class="card" id="alerts">
+    <h4>🚨 Alerts & Notifications</h4>
+    <div id="alert-container"></div>
+</div>
+
+<!-- Include Socket.IO client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.on('new_alert', function(data) {
+        var alertDiv = document.createElement("div");
+        alertDiv.className = "alert";
+        alertDiv.innerHTML = `
+            <span><strong>${data.message}</strong></span>
+            <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+        `;
+
+        document.getElementById("alert-container").prepend(alertDiv);
+
+        // Automatically remove alert after 5 seconds
+        setTimeout(() => {
+            alertDiv.style.opacity = "0";
+            setTimeout(() => alertDiv.remove(), 500);
+        }, 5000);
+    });
+</script>
+
+ 
+
+{% endblock %}

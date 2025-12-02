@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# Virtual environments
+venv/
+.env
+.venv/
+
+# Flask uploads and detections
+static/uploads/
+static/detections/
+
+# Database files (if any local db)
+*.sqlite3
+*.db
+
+# Flask migrations (optional, if you want to keep it in repo)
+migrations/
+
+# IDEs and OS files
+.vscode/
+.idea/
+*.swp
+.DS_Store

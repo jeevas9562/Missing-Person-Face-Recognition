@@ -1,0 +1,32 @@
+<form method="POST" action="{{ url_for('register') }}" style="display: flex; flex-direction: column; gap: 15px;">
+
+    <div style="display: flex; flex-direction: column;">
+        <label style="margin-bottom: 5px; font-weight: bold;">
+            Username/Email:
+        </label>
+        <input type="text" name="username" placeholder="Enter Username/Email" 
+               style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;" 
+               required>
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+        <label style="margin-bottom: 5px; font-weight: bold;">
+            Password:
+        </label>
+        <input type="password" name="password" placeholder="Enter Password" 
+               style="padding: 8px; border-radius: 5px; border: 1px solid #ccc;" 
+               required>
+    </div>
+    <a href="{{ url_for('front_page') }}" class="btn btn-custom">Go to Home</a>
+    <button type="submit" style="
+        width: 100%; 
+        background: #4ca1af; 
+        border: none; 
+        color: #fff; 
+        padding: 10px; 
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;">
+        Register
+    </button>
+</form>

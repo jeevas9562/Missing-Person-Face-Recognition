@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recognized Faces</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 900px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #4ca1af;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table th {
+            background-color: #4ca1af;
+            color: white;
+        }
+        .table img {
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: transform 0.3s;
+        }
+        .table img:hover {
+            transform: scale(1.1);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #4ca1af;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .img-thumbnail {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recognized Faces</h1>
+        <a href="{{ url_for('index') }}" class="back-link">&larr; Back</a>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Person Name</th>
+                        <th>Image</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for face in recognized_faces %}
+                    <tr>
+                        <td>{{ face.person_name }}</td>
+                        <td>
+                            <img src="{{ url_for('static', filename=face.image_path.replace('static/', '')) }}" 
+                                 onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/not_found.png') }}';"
+                                 class="img-thumbnail">
+                        </td>
+                        <td>{{ face.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
