@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🔍 Missing Person Face Recognition System
 
 A Flask-based web application that helps detect and identify missing persons using facial recognition. It allows admins to upload missing person data, users to upload unknown face images, and uses real-time alerts for recognition updates.
@@ -62,3 +63,7 @@ This project was developed as part of our final year B.Tech Computer Science aca
 We collaboratively worked on the design, development, and deployment of this face recognition-based missing person identification system.
 
 ---
+=======
+# Missing-Person-Face-Recognition
+A complete missing person identification system using Flask, face recognition, and PostgreSQL. Upload and recognize faces, log detections, enforce relational data checks, send real-time alerts, and manage users through a secure admin panel with a clean UI.
+>>>>>>> 1a380f3c479adb6261659bcd1bf9a095715a2f3a
